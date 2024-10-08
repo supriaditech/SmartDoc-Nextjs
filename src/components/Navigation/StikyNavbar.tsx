@@ -59,8 +59,8 @@ function StickyNavbar({ children, title }: StickyNavbarProps) {
           as="li"
           className={`text-black text-sm text-tertiary font-semibold py-2 px-4 rounded-none border-b border-transparent ${
             isActive(item.path)
-              ? "bg-transparent  bg-primary rounded-lg text-white"
-              : "hover:bg-transparent hover:text-green-300 hover:border-green-500 text-black"
+              ? "bg-transparent  bg-green-600 rounded-lg text-white"
+              : "hover:bg-transparent hover:text-green-600 hover:border-green-500 text-black"
           }`}
           key={item.id}
         >

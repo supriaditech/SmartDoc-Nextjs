@@ -9,7 +9,23 @@ export interface MasterProps {
 export default function Master({ children, title }: MasterProps) {
   return (
     <div>
-      <StickyNavbar title={title}>{children}</StickyNavbar>
+      <StickyNavbar title={title}>
+        {children}
+        <footer className="w-full text-center text-gray-600 mt-16">
+          <p className="mb-2">© 2024 Tempat Belajar. All Rights Reserved.</p>
+          <div className="flex justify-center gap-4">
+            <a href="/privacy-policy" className="hover:underline">
+              Kebijakan Privasi
+            </a>
+            <a href="/terms-of-service" className="hover:underline">
+              Ketentuan Layanan
+            </a>
+            <a href="/contact" className="hover:underline">
+              Hubungi Kami
+            </a>
+          </div>
+        </footer>
+      </StickyNavbar>
     </div>
   );
 }
