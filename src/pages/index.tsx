@@ -1,5 +1,6 @@
 import Master from "@/components/Navigation/Master";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function Index() {
   return (
@@ -24,12 +25,12 @@ export default function Index() {
 
           {/* Action Buttons */}
           <div className="flex justify-center gap-4 mt-8">
-            <a
+            <Link
               href="/login"
               className="border border-green-600 text-green-600 py-2 px-6 rounded-full hover:bg-green-600 hover:text-white transition-all"
             >
               Mari Coba Check Dokumen Kamu
-            </a>
+            </Link>
           </div>
         </main>
       </div>
