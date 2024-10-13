@@ -22,7 +22,6 @@ const useLogin = () => {
 
   const onSubmit: SubmitHandler<LoginFormInputs> = async (data) => {
     setLoadingLogin(true);
-    console.log(data);
     try {
       const signInResponse = await signIn("credentials", {
         redirect: false,
@@ -30,7 +29,6 @@ const useLogin = () => {
         password: data.password,
         callbackUrl: "/",
       });
-      console.log("ini adalah respone dari singin", signInResponse);
       if (!signInResponse) {
         console.error("No response from server");
         throw new Error("No response from server");

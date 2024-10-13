@@ -3,8 +3,7 @@ import { AuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import NextAuth from "next-auth";
 import { signOut } from "next-auth/react";
-
-const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+import { ApiUrl } from "../../../../config/config";
 
 const options: AuthOptions = {
   session: {
@@ -19,9 +18,8 @@ const options: AuthOptions = {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       async authorize(credentials: any) {
         const { email, password } = credentials;
-
         try {
-          const response = await fetch(apiUrl + "/auth/login", {
+          const response = await fetch(ApiUrl + "/auth/login", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
@@ -32,6 +30,8 @@ const options: AuthOptions = {
             }),
           });
           const user = await response.json();
+
+          // Log response untuk memeriksa detail
 
           if (response.ok && user.meta.statusCode === 200) {
             // Mengembalikan data pengguna dan token
@@ -44,7 +44,8 @@ const options: AuthOptions = {
               accessToken: user.data.token, // Simpan accessToken untuk nanti
             };
           } else {
-            // Jika login gagal, kembalikan null
+            // Log jika status dari response bukan 200
+            console.error("Login gagal, status bukan 200:", user);
             return null;
           }
         } catch (error) {
@@ -85,7 +86,7 @@ const options: AuthOptions = {
 
       // Profil API tambahan untuk user
       try {
-        const response = await fetch(apiUrl + "/auth/profile", {
+        const response = await fetch(ApiUrl + "/auth/profile", {
           method: "POST",
           headers: {
             Authorization: `Bearer ${token.accessToken}`,

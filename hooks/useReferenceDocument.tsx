@@ -34,9 +34,9 @@ const useReferenceDocument = (token: string) => {
     api.body.append("file", file);
     api.body.append("title", title);
     api.body.append("userId", userId.toString());
-    api.body.forEach((value, key) => {
-      console.log(`${key}:`, value);
-    });
+    // api.body.forEach((value, key) => {
+    //   console.log(`${key}:`, value);
+    // });
 
     try {
       // Panggil API

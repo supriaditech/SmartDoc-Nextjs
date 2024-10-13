@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState } from "react";
+import { useDropzone } from "react-dropzone";
 import { useReferenceDocument } from "../../hooks/useReferenceDocument";
 import { useSession } from "next-auth/react";
 import { Button, Card, CardBody } from "@material-tailwind/react";
@@ -12,15 +13,23 @@ const UploadDocumentComponent = () => {
   );
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [title, setTitle] = useState<string>("");
-  console.log(session);
+
   const userId = session?.user?.id;
 
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (file) {
-      setSelectedFile(file);
+  const onDrop = (acceptedFiles: File[]) => {
+    if (acceptedFiles.length > 0) {
+      setSelectedFile(acceptedFiles[0]);
     }
   };
+
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+    onDrop,
+    multiple: false,
+    accept: {
+      "application/pdf": [".pdf"],
+      "application/msword": [".doc", ".docx"],
+    },
+  });
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -31,7 +40,7 @@ const UploadDocumentComponent = () => {
 
   return (
     <Master title="Reference Documents">
-      <div className="flex flex-col h-full items-center justify-center py-20 bg-gray-100">
+      <div className="flex flex-col h-full items-center justify-center py-20 bg-gray-100 px-4">
         <Card className="w-full max-w-lg shadow-lg">
           <CardBody>
             <h2 className="text-3xl font-semibold text-center text-green-600">
@@ -55,15 +64,25 @@ const UploadDocumentComponent = () => {
                 />
               </div>
 
-              <div>
-                <label className="block text-sm font-medium text-gray-700">
-                  Pilih File
-                </label>
-                <input
-                  type="file"
-                  onChange={handleFileChange}
-                  className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none"
-                />
+              <div
+                {...getRootProps()}
+                className={`flex items-center justify-center w-full p-6 border-2 border-dashed rounded-md cursor-pointer ${
+                  isDragActive ? "border-green-500" : "border-gray-300"
+                }`}
+              >
+                <input {...getInputProps()} />
+                <div className="text-center">
+                  {isDragActive ? (
+                    <p className="text-green-500">Drop the files here...</p>
+                  ) : selectedFile ? (
+                    <p>{selectedFile.name}</p>
+                  ) : (
+                    <p>Drag and drop file here, or click to select file</p>
+                  )}
+                  <p className="text-xs text-gray-500">
+                    PDF, DOC, DOCX up to 10MB
+                  </p>
+                </div>
               </div>
 
               <div className="flex justify-center">
