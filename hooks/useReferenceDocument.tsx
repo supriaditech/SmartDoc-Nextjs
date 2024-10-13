@@ -2,6 +2,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState } from "react";
 import Api from "../service/Api";
+import useSWR from "swr";
 
 interface UploadDocumentResponse {
   meta: {
@@ -12,11 +13,30 @@ interface UploadDocumentResponse {
   data: any;
 }
 
+const fetcher = async (url: string, token: string) => {
+  const api = new Api();
+  api.url = url;
+  api.auth = true;
+  api.body = {};
+  api.token = token;
+  return api.call();
+};
+
 const useReferenceDocument = (token: string) => {
   console.log("============", token);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const [response, setResponse] = useState<UploadDocumentResponse | null>(null);
+
+  //   list dokument
+  const {
+    data: dataListDoc,
+    error: errorListDoc,
+    mutate,
+  } = useSWR(
+    token ? ["/reference-documents/list", token] : null,
+    ([url, token]) => fetcher(url, token)
+  );
 
   const uploadDocument = async (file: File, title: string, userId: number) => {
     setLoading(true);
@@ -55,6 +75,9 @@ const useReferenceDocument = (token: string) => {
     loading,
     error,
     response,
+    dataListDoc,
+    errorListDoc,
+    mutate,
   };
 };
 
