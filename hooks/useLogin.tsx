@@ -22,7 +22,6 @@ const useLogin = () => {
 
   const onSubmit: SubmitHandler<LoginFormInputs> = async (data) => {
     setLoadingLogin(true);
-
     try {
       const signInResponse = await signIn("credentials", {
         redirect: false,
