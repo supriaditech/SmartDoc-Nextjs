@@ -8,7 +8,7 @@ export interface MasterProps {
 
 export default function Master({ children, title }: MasterProps) {
   return (
-    <div>
+    <div className="min-h-screen flex flex-col">
       <StickyNavbar title={title}>
         {children}
         <footer className="w-full text-center text-gray-600 mt-16">
