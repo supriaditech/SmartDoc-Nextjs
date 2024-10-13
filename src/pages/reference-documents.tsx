@@ -6,10 +6,12 @@ import { Button, Card, CardBody } from "@material-tailwind/react";
 import Master from "@/components/Navigation/Master";
 
 const UploadDocumentComponent = () => {
-  const { uploadDocument, loading, error, response } = useReferenceDocument();
+  const { data: session } = useSession() as { data: any };
+  const { uploadDocument, loading, error, response } = useReferenceDocument(
+    session?.accessToken
+  );
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [title, setTitle] = useState<string>("");
-  const { data: session } = useSession() as { data: any };
   console.log(session);
   const userId = session?.user?.id;
 

@@ -12,7 +12,8 @@ interface UploadDocumentResponse {
   data: any;
 }
 
-const useReferenceDocument = () => {
+const useReferenceDocument = (token: string) => {
+  console.log("============", token);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const [response, setResponse] = useState<UploadDocumentResponse | null>(null);
@@ -25,12 +26,17 @@ const useReferenceDocument = () => {
     const api = new Api();
     api.url = "/reference-documents/upload"; // URL untuk upload
     api.type = "multipart"; // Pastikan tipe multipart
+    api.auth = true;
+    api.token = token;
     api.body = new FormData(); // Gunakan FormData untuk multipart
 
     // Tambahkan data ke FormData
     api.body.append("file", file);
     api.body.append("title", title);
     api.body.append("userId", userId.toString());
+    api.body.forEach((value, key) => {
+      console.log(`${key}:`, value);
+    });
 
     try {
       // Panggil API
