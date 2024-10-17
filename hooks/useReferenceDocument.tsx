@@ -23,7 +23,6 @@ const fetcher = async (url: string, token: string) => {
 };
 
 const useReferenceDocument = (token: string) => {
-  console.log("============", token);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const [response, setResponse] = useState<UploadDocumentResponse | null>(null);
